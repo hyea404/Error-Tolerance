@@ -1,4 +1,6 @@
-﻿namespace Error_Tolerance
+﻿using System.Windows.Forms;
+
+namespace Error_Tolerance
 {
     partial class Form1
     {
@@ -6,6 +8,9 @@
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
+      
+
+
 
         /// <summary>
         /// Clean up any resources being used.
@@ -28,6 +33,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -36,14 +42,18 @@
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.Folder = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.listBoxFiles = new System.Windows.Forms.ListBox();
+            this.radioButtonJava = new System.Windows.Forms.RadioButton();
+            this.radioButtonCSharp = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.radioButton4 = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.dataGridViewResults = new System.Windows.Forms.DataGridView();
+            this.button3 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewResults)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -54,7 +64,7 @@
             this.button1.TabIndex = 0;
             this.button1.Text = "Calculate";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.buttonCalculateErrorTolerance_Click);
             // 
             // textBox1
             // 
@@ -82,7 +92,7 @@
             this.buttonBrowseFile.TabIndex = 2;
             this.buttonBrowseFile.Text = "Open File";
             this.buttonBrowseFile.UseVisualStyleBackColor = true;
-            this.buttonBrowseFile.Click += new System.EventHandler(this.button2_Click);
+            this.buttonBrowseFile.Click += new System.EventHandler(this.buttonBrowseFile_Click);
             // 
             // textBox2
             // 
@@ -104,11 +114,11 @@
             this.textBox3.BackColor = System.Drawing.Color.DimGray;
             this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox3.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.textBox3.Location = new System.Drawing.Point(476, 78);
+            this.textBox3.Location = new System.Drawing.Point(489, 368);
             this.textBox3.Multiline = true;
             this.textBox3.Name = "textBox3";
             this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(312, 319);
+            this.textBox3.Size = new System.Drawing.Size(299, 29);
             this.textBox3.TabIndex = 4;
             this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
@@ -137,69 +147,77 @@
             this.Folder.TabIndex = 7;
             this.Folder.Text = "Open Folder";
             this.Folder.UseVisualStyleBackColor = true;
-            this.Folder.Click += new System.EventHandler(this.button4_Click);
+            this.Folder.Click += new System.EventHandler(this.buttonBrowseFolder_Click);
             // 
-            // listBox1
+            // listBoxFiles
             // 
-            this.listBox1.BackColor = System.Drawing.Color.DimGray;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(186, 78);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(284, 316);
-            this.listBox1.TabIndex = 8;
-            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            this.listBoxFiles.Location = new System.Drawing.Point(0, 0);
+            this.listBoxFiles.Name = "listBoxFiles";
+            this.listBoxFiles.Size = new System.Drawing.Size(120, 95);
+            this.listBoxFiles.TabIndex = 0;
+            this.listBoxFiles.SelectedIndexChanged += new System.EventHandler(this.listBoxFiles_SelectedIndexChanged);
             // 
-            // radioButton1
+            // radioButtonJava
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(6, 19);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(44, 17);
-            this.radioButton1.TabIndex = 9;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "C++";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButtonJava.Location = new System.Drawing.Point(0, 0);
+            this.radioButtonJava.Name = "radioButtonJava";
+            this.radioButtonJava.Size = new System.Drawing.Size(104, 24);
+            this.radioButtonJava.TabIndex = 0;
+            // 
+            // radioButtonCSharp
+            // 
+            this.radioButtonCSharp.AutoSize = true;
+            this.radioButtonCSharp.Location = new System.Drawing.Point(6, 19);
+            this.radioButtonCSharp.Name = "radioButtonCSharp";
+            this.radioButtonCSharp.Size = new System.Drawing.Size(39, 17);
+            this.radioButtonCSharp.TabIndex = 9;
+            this.radioButtonCSharp.TabStop = true;
+            this.radioButtonCSharp.Text = "C#";
+            this.radioButtonCSharp.UseVisualStyleBackColor = true;
+            this.radioButtonCSharp.CheckedChanged += new System.EventHandler(this.radioButtonCSharp_CheckedChanged);
             // 
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
             this.radioButton2.Location = new System.Drawing.Point(6, 42);
             this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(39, 17);
+            this.radioButton2.Size = new System.Drawing.Size(44, 17);
             this.radioButton2.TabIndex = 10;
             this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "C#";
+            this.radioButton2.Text = "C++";
             this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButtonCpp_CheckedChanged);
             // 
             // radioButton3
             // 
             this.radioButton3.AutoSize = true;
             this.radioButton3.Location = new System.Drawing.Point(6, 65);
             this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(58, 17);
+            this.radioButton3.Size = new System.Drawing.Size(48, 17);
             this.radioButton3.TabIndex = 11;
             this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Python";
+            this.radioButton3.Text = "Java";
             this.radioButton3.UseVisualStyleBackColor = true;
+            this.radioButton3.CheckedChanged += new System.EventHandler(this.radioButtonJava_CheckedChanged);
             // 
             // radioButton4
             // 
             this.radioButton4.AutoSize = true;
             this.radioButton4.Location = new System.Drawing.Point(6, 88);
             this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(48, 17);
+            this.radioButton4.Size = new System.Drawing.Size(58, 17);
             this.radioButton4.TabIndex = 12;
             this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "Java";
+            this.radioButton4.Text = "Python";
             this.radioButton4.UseVisualStyleBackColor = true;
-            this.radioButton4.CheckedChanged += new System.EventHandler(this.radioButton4_CheckedChanged);
+            this.radioButton4.CheckedChanged += new System.EventHandler(this.radioButtonPython_CheckedChanged);
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.radioButton1);
-            this.groupBox1.Controls.Add(this.radioButton4);
+            this.groupBox1.Controls.Add(this.radioButtonCSharp);
             this.groupBox1.Controls.Add(this.radioButton2);
             this.groupBox1.Controls.Add(this.radioButton3);
+            this.groupBox1.Controls.Add(this.radioButton4);
             this.groupBox1.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.groupBox1.Location = new System.Drawing.Point(12, 46);
             this.groupBox1.Name = "groupBox1";
@@ -217,15 +235,49 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click_1);
             // 
+            // dataGridViewResults
+            // 
+            this.dataGridViewResults.AllowDrop = true;
+            this.dataGridViewResults.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewResults.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dataGridViewResults.BackgroundColor = System.Drawing.Color.DimGray;
+            this.dataGridViewResults.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.DimGray;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewResults.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridViewResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewResults.GridColor = System.Drawing.Color.DimGray;
+            this.dataGridViewResults.Location = new System.Drawing.Point(186, 78);
+            this.dataGridViewResults.Name = "dataGridViewResults";
+            this.dataGridViewResults.Size = new System.Drawing.Size(602, 284);
+            this.dataGridViewResults.TabIndex = 5;
+            this.dataGridViewResults.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewResults_CellContentClick);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(12, 230);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(168, 26);
+            this.button3.TabIndex = 15;
+            this.button3.Text = "Reset";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.ResetBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.dataGridViewResults);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.Folder);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.textBox2);
@@ -238,6 +290,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewResults)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -253,13 +306,18 @@
         public System.Windows.Forms.TextBox textBox3;
         public System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Button Folder;
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.RadioButton radioButton4;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ListBox listBoxFiles;
+        private System.Windows.Forms.RadioButton radioButtonCSharp;
+        private System.Windows.Forms.RadioButton radioButtonCpp;
+        private System.Windows.Forms.RadioButton radioButtonJava;
+        private System.Windows.Forms.RadioButton radioButtonPython;
+        private DataGridView dataGridViewResults;
+        private Button button3;
     }
 }
 
