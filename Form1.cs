@@ -40,31 +40,45 @@ namespace Error_Tolerance
                     int kontrolCount = 0;
                     int errorHandlerCount = 0;
 
-                    foreach (string line in lines)
+                    if (IsPythonFile(fileName))
                     {
-                        if (line.TrimStart().StartsWith("//"))
-                            continue;
-
-                        if (line.Contains("//"))
+                        // Jika file Python, gunakan metode penghitungan khusus Python
+                        CountPythonFileMetrics(lines, ref komputasiCount, ref kontrolCount, ref errorHandlerCount);
+                    }
+                    else if (IsCppFile(fileName))
+                    {
+                        // Penghitungan untuk file C++
+                        CountCppFileMetrics(lines, ref komputasiCount, ref kontrolCount, ref errorHandlerCount);
+                    }
+                    else
+                    {
+                        // Jika bukan file Python, gunakan metode penghitungan umum
+                        foreach (string line in lines)
                         {
-                            string codeLine = line.Split(new[] { "//" }, StringSplitOptions.None)[0].Trim();
-                            if (string.IsNullOrEmpty(codeLine))
+                            if (line.TrimStart().StartsWith("//"))
                                 continue;
-                        }
 
-                        if (line.Contains("+") || line.Contains("-") || line.Contains("*") || line.Contains("/"))
-                        {
-                            komputasiCount++;
-                        }
+                            if (line.Contains("//"))
+                            {
+                                string codeLine = line.Split(new[] { "//" }, StringSplitOptions.None)[0].Trim();
+                                if (string.IsNullOrEmpty(codeLine))
+                                    continue;
+                            }
 
-                        if (line.Contains("if") || line.Contains("for") || line.Contains("while") || line.Contains("switch"))
-                        {
-                            kontrolCount++;
-                        }
+                            if (line.Contains("+") || line.Contains("-") || line.Contains("*") || line.Contains("/"))
+                            {
+                                komputasiCount++;
+                            }
 
-                        if (line.Contains("catch"))
-                        {
-                            errorHandlerCount++;
+                            if (line.Contains("if") || line.Contains("for") || line.Contains("while") || line.Contains("switch"))
+                            {
+                                kontrolCount++;
+                            }
+
+                            if (line.Contains("catch"))
+                            {
+                                errorHandlerCount++;
+                            }
                         }
                     }
 
@@ -72,16 +86,9 @@ namespace Error_Tolerance
 
                     totalErrorTolerance += persentaseErrorTolerance;
                     fileCount++;
-                    // Menampilkan hasil analisis dalam textBox3
-                    //textBox3.Text = "Computations: " + komputasiCount + Environment.NewLine
-                    //+ "Control Structure: " + kontrolCount + Environment.NewLine
-                    //+ "Error Handler: " + errorHandlerCount + Environment.NewLine
-                    //+ "Error Tolerance: " + persentaseErrorTolerance.ToString("0.00") + "%";
 
                     dataGridViewResults.Rows.Add(fileName, komputasiCount, kontrolCount, errorHandlerCount, persentaseErrorTolerance);
                 }
-
-
                 catch (FileNotFoundException)
                 {
                     // Handle file not found exception
@@ -97,7 +104,7 @@ namespace Error_Tolerance
             if (fileCount > 0)
             {
                 double averageErrorTolerance = totalErrorTolerance / fileCount;
-                textBox3.Text="Average Error Tolerance:" + averageErrorTolerance.ToString("0.00") + "%";
+                textBox3.Text = "Average Error Tolerance:" + averageErrorTolerance.ToString("0.00") + "%";
             }
 
         }
@@ -120,18 +127,18 @@ namespace Error_Tolerance
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.Filter = GetFileFilter(); // Dapatkan filter file sesuai dengan pilihan bahasa pemrograman
+                openFileDialog.Filter = GetFileFilter(); // <-- Error occurs here
                 openFileDialog.Multiselect = true;
-
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     textBox1.Text = openFileDialog.FileName;
-                    listBoxFiles.Items.Clear(); // Hapus item sebelumnya dari ListBox
-                    listBoxFiles.Items.Add(openFileDialog.FileName); // Tampilkan file yang dipilih di ListBox
+                    listBoxFiles.Items.Clear();
+                    listBoxFiles.Items.Add(openFileDialog.FileName);
                 }
             }
         }
+
 
         private void buttonBrowseFolder_Click(object sender, EventArgs e)
         {
@@ -157,22 +164,107 @@ namespace Error_Tolerance
                 return "Java Files (*.java)|*.java";
             else if (radioButtonPython != null && radioButtonPython.Checked)
                 return "Python Files (*.py)|*.py";
-            else
-                return "All Files (*.cs, *.cpp, *.java, *.py)|*.cs;*.cpp;*.java;*.py";
+
+            // Jika tidak ada radio button yang dipilih, kembalikan filter default
+            return "All Files (*.cs, *.cpp, *.java, *.py)|*.cs;*.cpp;*.java;*.py";
         }
 
         private string GetFileExtensionFilter()
         {
             if (radioButtonCSharp.Checked)
                 return "*.cs";
-            else if (radioButtonCpp.Checked)
-                return "*.cpp";
-            else if (radioButtonJava.Checked)
-                return "*.java";
-            else if (radioButtonPython.Checked)
-                return "*.py";
-            else
-                return "*.*"; // Jika memilih "All Files", tampilkan semua ekstensi
+            else if (radioButtonCpp != null && radioButtonCpp.Checked)
+                return "C++ Files (*.cpp)|*.cpp";
+            else if (radioButtonJava != null && radioButtonJava.Checked)
+                return "Java Files (*.java)|*.java";
+            else if (radioButtonPython != null && radioButtonPython.Checked)
+                return "Python Files (*.py)|*.py";
+
+            // Jika tidak ada radio button yang dipilih, kembalikan ekstensi default
+            return "*.*";
+        }
+
+        private bool IsCppFile(string fileName)
+        {
+            return Path.GetExtension(fileName).Equals(".cpp", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private void CountCppFileMetrics(string[] lines, ref int komputasiCount, ref int kontrolCount, ref int errorHandlerCount)
+        {
+            foreach (string line in lines)
+            {
+                if (line.TrimStart().StartsWith("//"))
+                    continue;
+
+                if (line.Contains("//"))
+                {
+                    string codeLine = line.Split(new[] { "//" }, StringSplitOptions.None)[0].Trim();
+                    if (string.IsNullOrEmpty(codeLine))
+                        continue;
+                }
+
+                if (line.Contains("+") || line.Contains("-") || line.Contains("*") || line.Contains("/"))
+                {
+                    komputasiCount++;
+                }
+
+                if (line.Contains("if") || line.Contains("for") || line.Contains("while") || line.Contains("switch"))
+                {
+                    kontrolCount++;
+                }
+
+                if (line.Contains("catch"))
+                {
+                    errorHandlerCount++;
+                }
+
+                // Tambahan untuk C++: Pemeriksaan terhadap ekspresi try, catch, dan throw
+                if (line.Contains("try"))
+                {
+                    // Contoh sederhana, Anda mungkin perlu melakukan analisis lebih lanjut untuk menangani kasus yang lebih kompleks
+                    errorHandlerCount++; // Anggap setiap blok 'try' sebagai error handling
+                }
+                else if (line.Contains("throw"))
+                {
+                    errorHandlerCount++; // Anggap setiap 'throw' sebagai error handling
+                }
+            }
+        }
+
+        private bool IsPythonFile(string fileName)
+        {
+            return Path.GetExtension(fileName).Equals(".py", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private void CountPythonFileMetrics(string[] lines, ref int komputasiCount, ref int kontrolCount, ref int errorHandlerCount)
+        {
+            foreach (string line in lines)
+            {
+                if (line.TrimStart().StartsWith("#"))
+                    continue;
+
+                if (line.Contains("#"))
+                {
+                    string codeLine = line.Split(new[] { "#" }, StringSplitOptions.None)[0].Trim();
+                    if (string.IsNullOrEmpty(codeLine))
+                        continue;
+                }
+
+                if (line.Contains("+") || line.Contains("-") || line.Contains("*") || line.Contains("/") || line.Contains("%") || line.Contains("**"))
+                {
+                    komputasiCount++;
+                }
+
+                if (line.Contains("if") || line.Contains("for") || line.Contains("while") || line.Contains("switch"))
+                {
+                    kontrolCount++;
+                }
+
+                if (line.Contains("except") || line.Contains("try") || line.Contains("finally"))
+                {
+                    errorHandlerCount++;
+                }
+            }
         }
 
 
@@ -183,6 +275,7 @@ namespace Error_Tolerance
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            radioButtonCSharp.Checked = true;
             dataGridViewResults.Columns.Add("FileName", "File Location");
             dataGridViewResults.Columns.Add("Computations", "Computations");
             dataGridViewResults.Columns.Add("ControlStructures", "Control Structures");
@@ -212,11 +305,15 @@ namespace Error_Tolerance
 
             helpMessage.AppendLine("User Guide for Error Tolerance Application");
             helpMessage.AppendLine();
-            helpMessage.AppendLine("1. Browse your file.");
-            helpMessage.AppendLine("2. Click 'Calculate' to run testing.");
-            helpMessage.AppendLine("3. The Apllication will show the result.");
-            helpMessage.AppendLine("4. Result will contain .");
-
+            helpMessage.AppendLine("1. Select the file types you want to count.");
+            helpMessage.AppendLine("2. Browse your file.");
+            helpMessage.AppendLine("3. You can select 'Open File' button to select just one file .");
+            helpMessage.AppendLine("4. You can select 'Open Folder' button to select all files in one folder.");
+            helpMessage.AppendLine("5. Click 'Calculate' to run testing.");
+            helpMessage.AppendLine("6. The Apllication will show the result.");
+            helpMessage.AppendLine("7. you can export result 'Export to .CSV'.");
+            helpMessage.AppendLine("8. If you want to recalculate the error tolerance, please click the reset button first.");
+            helpMessage.AppendLine("9. Repeat the same steps if you want to calculate the error tolerance again.");
 
             return helpMessage.ToString();
         }
@@ -234,7 +331,7 @@ namespace Error_Tolerance
         }
 
 
-        private void radioButtonJava_CheckedChanged(object sender, EventArgs e)
+        private void radioButtonAll_CheckedChanged(object sender, EventArgs e)
         {
 
         }
@@ -264,5 +361,38 @@ namespace Error_Tolerance
 
         }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+            // Show SaveFileDialog to choose the file path for saving
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "CSV Files (*.csv)|*.csv";
+                saveFileDialog.Title = "Export to CSV";
+                saveFileDialog.FileName = "ErrorToleranceResults.csv";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Create a stream writer to write to the chosen file
+                    using (StreamWriter sw = new StreamWriter(saveFileDialog.FileName))
+                    {
+                        // Write the header line
+                        sw.WriteLine("File Name|Computations|Control Structures|Error Handlers|Error Tolerance");
+
+                        // Write each row in the DataGridView
+                        foreach (DataGridViewRow row in dataGridViewResults.Rows)
+                        {
+                            string line = $"{row.Cells["FileName"].Value}|{row.Cells["Computations"].Value}|{row.Cells["ControlStructures"].Value}|{row.Cells["ErrorHandlers"].Value}|{row.Cells["ErrorTolerance"].Value}";
+                            sw.WriteLine(line);
+                        }
+
+                        // Write the average line
+                        sw.WriteLine($"{textBox3.Text}");
+                    }
+
+                    MessageBox.Show("Export successful!", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
     }
 }

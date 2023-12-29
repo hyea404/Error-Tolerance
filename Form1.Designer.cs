@@ -52,6 +52,7 @@ namespace Error_Tolerance
             this.button2 = new System.Windows.Forms.Button();
             this.dataGridViewResults = new System.Windows.Forms.DataGridView();
             this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewResults)).BeginInit();
             this.SuspendLayout();
@@ -112,6 +113,7 @@ namespace Error_Tolerance
             // 
             this.textBox3.AllowDrop = true;
             this.textBox3.BackColor = System.Drawing.Color.DimGray;
+            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox3.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.textBox3.Location = new System.Drawing.Point(489, 368);
@@ -120,6 +122,7 @@ namespace Error_Tolerance
             this.textBox3.ReadOnly = true;
             this.textBox3.Size = new System.Drawing.Size(299, 29);
             this.textBox3.TabIndex = 4;
+            this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // textBox4
@@ -191,19 +194,19 @@ namespace Error_Tolerance
             // radioButton3
             // 
             this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(6, 65);
+            this.radioButton3.Location = new System.Drawing.Point(6, 88);
             this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(48, 17);
+            this.radioButton3.Size = new System.Drawing.Size(142, 17);
             this.radioButton3.TabIndex = 11;
             this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Java";
+            this.radioButton3.Text = "All File (C#, C++, Python)";
             this.radioButton3.UseVisualStyleBackColor = true;
-            this.radioButton3.CheckedChanged += new System.EventHandler(this.radioButtonJava_CheckedChanged);
+            this.radioButton3.CheckedChanged += new System.EventHandler(this.radioButtonAll_CheckedChanged);
             // 
             // radioButton4
             // 
             this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(6, 88);
+            this.radioButton4.Location = new System.Drawing.Point(6, 65);
             this.radioButton4.Name = "radioButton4";
             this.radioButton4.Size = new System.Drawing.Size(58, 17);
             this.radioButton4.TabIndex = 12;
@@ -268,12 +271,23 @@ namespace Error_Tolerance
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.ResetBtn_Click);
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(12, 336);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(168, 26);
+            this.button4.TabIndex = 16;
+            this.button4.Text = "Export to .CSV";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.dataGridViewResults);
             this.Controls.Add(this.button2);
@@ -318,6 +332,7 @@ namespace Error_Tolerance
         private System.Windows.Forms.RadioButton radioButtonPython;
         private DataGridView dataGridViewResults;
         private Button button3;
+        private Button button4;
     }
 }
 
