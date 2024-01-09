@@ -27,6 +27,24 @@ namespace Error_Tolerance
         private double totalErrorTolerance = 0;
         private int fileCount = 0;
 
+        private string GenerateHelpMessage()
+        {
+            StringBuilder helpMessage = new StringBuilder();
+
+            helpMessage.AppendLine("User Guide for Error Tolerance Application");
+            helpMessage.AppendLine();
+            helpMessage.AppendLine("1. Select the file types you want to count.");
+            helpMessage.AppendLine("2. Browse your file.");
+            helpMessage.AppendLine("    - You can select 'Open File' button to select just one file .");
+            helpMessage.AppendLine("    - You can select 'Open Folder' button to select all files in one folder.");
+            helpMessage.AppendLine("3. Click 'Calculate' to run testing.");
+            helpMessage.AppendLine("4. The Apllication will show the result.");
+            helpMessage.AppendLine("5. you can export result 'Export to .CSV'.");
+            helpMessage.AppendLine("6. If you want to recalculate the error tolerance, please click the reset button first.");
+            helpMessage.AppendLine("7. Repeat the same steps if you want to calculate the error tolerance again.");
+
+            return helpMessage.ToString();
+        }
         private void buttonCalculateErrorTolerance_Click(object sender, EventArgs e)
         {
             dataGridViewResults.Rows.Clear();
@@ -52,7 +70,7 @@ namespace Error_Tolerance
                     }
                     else
                     {
-                        // Jika bukan file Python, gunakan metode penghitungan umum
+                        // Jika bukan file Python, gunakan metode penghitungan c#
                         foreach (string line in lines)
                         {
                             if (line.TrimStart().StartsWith("//"))
@@ -75,7 +93,7 @@ namespace Error_Tolerance
                                 kontrolCount++;
                             }
 
-                            if (line.Contains("catch"))
+                            if (line.Contains("catch") || line.Contains("try") || line.Contains("finally") || line.Contains("throw"))
                             {
                                 errorHandlerCount++;
                             }
@@ -104,7 +122,7 @@ namespace Error_Tolerance
             if (fileCount > 0)
             {
                 double averageErrorTolerance = totalErrorTolerance / fileCount;
-                textBox3.Text = "Average Error Tolerance:" + averageErrorTolerance.ToString("0.00") + "%";
+                textBox3.Text = "Average Error Tolerance: " + averageErrorTolerance.ToString("0.00") + "%";
             }
 
         }
@@ -299,24 +317,6 @@ namespace Error_Tolerance
             MessageBox.Show(helpMessage, "User Guide", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private string GenerateHelpMessage()
-        {
-            StringBuilder helpMessage = new StringBuilder();
-
-            helpMessage.AppendLine("User Guide for Error Tolerance Application");
-            helpMessage.AppendLine();
-            helpMessage.AppendLine("1. Select the file types you want to count.");
-            helpMessage.AppendLine("2. Browse your file.");
-            helpMessage.AppendLine("3. You can select 'Open File' button to select just one file .");
-            helpMessage.AppendLine("4. You can select 'Open Folder' button to select all files in one folder.");
-            helpMessage.AppendLine("5. Click 'Calculate' to run testing.");
-            helpMessage.AppendLine("6. The Apllication will show the result.");
-            helpMessage.AppendLine("7. you can export result 'Export to .CSV'.");
-            helpMessage.AppendLine("8. If you want to recalculate the error tolerance, please click the reset button first.");
-            helpMessage.AppendLine("9. Repeat the same steps if you want to calculate the error tolerance again.");
-
-            return helpMessage.ToString();
-        }
 
         //Reset button
         private void ResetBtn_Click(object sender, EventArgs e)
@@ -377,7 +377,11 @@ namespace Error_Tolerance
                     using (StreamWriter sw = new StreamWriter(saveFileDialog.FileName))
                     {
                         // Write the header line
-                        sw.WriteLine("File Name|Computations|Control Structures|Error Handlers|Error Tolerance");
+                        sw.WriteLine("ERROR TOLERANCE ");
+                        sw.WriteLine(" ");
+                        sw.WriteLine($"{textBox3.Text}");
+                        sw.WriteLine(" ");
+                        sw.WriteLine("File Location|Computations|Control Structures|Error Handlers|Error Tolerance");
 
                         // Write each row in the DataGridView
                         foreach (DataGridViewRow row in dataGridViewResults.Rows)

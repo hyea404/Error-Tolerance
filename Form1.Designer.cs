@@ -40,7 +40,6 @@ namespace Error_Tolerance
             this.buttonBrowseFile = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
             this.Folder = new System.Windows.Forms.Button();
             this.listBoxFiles = new System.Windows.Forms.ListBox();
             this.radioButtonJava = new System.Windows.Forms.RadioButton();
@@ -125,23 +124,6 @@ namespace Error_Tolerance
             this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
-            // textBox4
-            // 
-            this.textBox4.AllowDrop = true;
-            this.textBox4.BackColor = System.Drawing.Color.DimGray;
-            this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox4.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox4.ForeColor = System.Drawing.Color.LightGray;
-            this.textBox4.Location = new System.Drawing.Point(476, 403);
-            this.textBox4.Multiline = true;
-            this.textBox4.Name = "textBox4";
-            this.textBox4.ReadOnly = true;
-            this.textBox4.Size = new System.Drawing.Size(312, 35);
-            this.textBox4.TabIndex = 5;
-            this.textBox4.Text = "Mohamad Aenur Rokhman\r\nRizal Darusman\r\n";
-            this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
-            // 
             // Folder
             // 
             this.Folder.Location = new System.Drawing.Point(99, 166);
@@ -154,10 +136,11 @@ namespace Error_Tolerance
             // 
             // listBoxFiles
             // 
-            this.listBoxFiles.Location = new System.Drawing.Point(0, 0);
+            this.listBoxFiles.BackColor = System.Drawing.Color.Black;
+            this.listBoxFiles.Location = new System.Drawing.Point(1, 1);
             this.listBoxFiles.Name = "listBoxFiles";
             this.listBoxFiles.Size = new System.Drawing.Size(120, 95);
-            this.listBoxFiles.TabIndex = 0;
+            this.listBoxFiles.TabIndex = 22;
             this.listBoxFiles.SelectedIndexChanged += new System.EventHandler(this.listBoxFiles_SelectedIndexChanged);
             // 
             // radioButtonJava
@@ -293,7 +276,6 @@ namespace Error_Tolerance
             this.Controls.Add(this.button2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.Folder);
-            this.Controls.Add(this.textBox4);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.buttonBrowseFile);
             this.Controls.Add(this.textBox1);
@@ -318,7 +300,6 @@ namespace Error_Tolerance
         private System.Windows.Forms.Button buttonBrowseFile;
         private System.Windows.Forms.TextBox textBox2;
         public System.Windows.Forms.TextBox textBox3;
-        public System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Button Folder;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton3;
